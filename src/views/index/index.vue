@@ -1,18 +1,19 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎登录:  {{ user.name }}</div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
+import { getCacheToJsonParse } from '@/utils/cache'
 
 export default {
   name: 'Index',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  data() {
+    return {
+      user: getCacheToJsonParse('userInfo')
+    }
   }
 }
 </script>
@@ -23,8 +24,8 @@ export default {
     margin: 30px;
   }
   &-text {
-    font-size: 30px;
-    line-height: 46px;
+    font-size: 20px;
+    line-height: 30px;
   }
 }
 </style>
