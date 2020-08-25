@@ -1,5 +1,7 @@
 import { adminInfo, adminLogin } from '@/api/admin-user'
 import { setToken, removeToken } from '@/utils/auth'
+import { cache } from '@/utils/cache'
+import da from 'element-ui/src/locale/lang/da'
 
 const actions = {
   // user login
@@ -7,9 +9,7 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       adminLogin({ phone: username.trim(), password: password }).then(response => {
-        const { data } = response
-        console.log(commit)
-        setToken('Bearer ' + data.token)
+        setToken('Bearer ' + response.data.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -18,13 +18,14 @@ const actions = {
   },
 
   // user login
-  adminInfo({ commit, state }) {
+  adminInfo() {
     return new Promise((resolve, reject) => {
-      adminInfo(state.token).then(response => {
+      adminInfo().then(response => {
         const { data } = response
-        console.log(data)
-        commit('SET_NAME', data.name)
-        commit('SET_AVATAR', data.phone)
+        if (!data) {
+          return reject('身份异常，请重新登陆')
+        }
+        cache('userInfo', data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -32,10 +33,9 @@ const actions = {
     })
   },
   // remove token
-  resetToken({ commit }) {
+  resetToken() {
     return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
+      removeToken()
       resolve()
     })
   }
