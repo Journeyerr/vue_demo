@@ -16,7 +16,8 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
+    // if (store.getters.token) {
+    if (getToken()) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
@@ -62,7 +63,7 @@ service.interceptors.response.use(
       })
 
       if (res.code === 1001 || res.code === 1004) {
-        MessageBox.confirm('身份已过期，请重新登录', '确认注销', {
+        MessageBox.confirm('身份已过期，请重新登录', '提示', {
           confirmButtonText: '登录',
           cancelButtonText: '取消',
           type: 'warning'
