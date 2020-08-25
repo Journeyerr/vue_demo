@@ -1,4 +1,4 @@
-import { adminInfo, adminLogin } from '@/api/admin/admin-user'
+import { adminInfo, adminLogin } from '@/api/admin-user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const getDefaultState = () => {
@@ -48,8 +48,8 @@ const actions = {
       adminInfo(state.token).then(response => {
         const { data } = response
         console.log(data)
-        // commit('SET_NAME', name)
-        // commit('SET_AVATAR', avatar)
+        commit('SET_NAME', data.name)
+        commit('SET_AVATAR', data.phone)
         resolve()
       }).catch(error => {
         reject(error)

@@ -4,7 +4,7 @@ import getters from './getters'
 import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
-import adminUser from './modules/admin/admin-user'
+import adminUser from './modules/admin-user'
 
 Vue.use(Vuex)
 
