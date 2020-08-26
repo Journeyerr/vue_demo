@@ -6,3 +6,11 @@ export function shops() {
     method: 'get'
   })
 }
+
+export function productImageStore(data) {
+  return request({
+    url: '/admin/product/image/store',
+    method: 'post',
+    data
+  })
+}
