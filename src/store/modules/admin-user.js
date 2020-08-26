@@ -1,7 +1,6 @@
-import { adminInfo, adminLogin } from '@/api/admin-user'
+import { adminInfo, adminLogin, adminIndex } from '@/api/admin-user'
 import { setToken, removeToken } from '@/utils/auth'
 import { cache } from '@/utils/cache'
-import da from 'element-ui/src/locale/lang/da'
 
 const actions = {
   // user login
@@ -32,6 +31,15 @@ const actions = {
       })
     })
   },
+
+  adminIndex() {
+    return new Promise((resolve) => {
+      adminIndex().then(response => {
+        resolve(response)
+      })
+    })
+  },
+
   // remove token
   resetToken() {
     return new Promise(resolve => {
