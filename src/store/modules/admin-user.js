@@ -1,6 +1,7 @@
 import { adminInfo, adminLogin, adminIndex } from '@/api/admin-user'
 import { setToken, removeToken } from '@/utils/auth'
 import { cache } from '@/utils/cache'
+import { userInfoKey } from '@/utils/content'
 
 const actions = {
   // user login
@@ -24,7 +25,7 @@ const actions = {
         if (!data) {
           return reject('身份异常，请重新登陆')
         }
-        cache('userInfo', data)
+        cache(userInfoKey, data)
         resolve()
       }).catch(error => {
         reject(error)

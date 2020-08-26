@@ -10,12 +10,13 @@
 <script>
 
 import { getCacheToJsonParse } from '@/utils/cache'
+import { userInfoKey } from '@/utils/content'
 
 export default {
   name: 'Index',
   data() {
     return {
-      user: getCacheToJsonParse('userInfo'),
+      user: getCacheToJsonParse(userInfoKey),
       shopCount: null,
       productImageCount: null
     }
