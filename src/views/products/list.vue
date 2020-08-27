@@ -54,9 +54,9 @@
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="操作" width="220" fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status === '1'" type="warning">停用</el-button>
-          <el-button v-else type="primary">启用</el-button>
-          <el-button type="danger" @click="removeImage(scope.row)">删除</el-button>
+          <el-button v-if="scope.row.status === '1'" type="warning" @click="updateImage(scope.row)" :loading="updateLoading">停用</el-button>
+          <el-button v-else type="primary" @click="updateImage(scope.row)" :loading="updateLoading">启用</el-button>
+          <el-button type="danger" @click="removeImage(scope.row)" :loading="deleteLoading">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,13 +64,15 @@
 </template>
 
 <script>
-import { productImageIndex, productImageRemove } from '../../api/shops'
+  import { productImageIndex, productImageRemove, productImageUpdate } from '../../api/shops'
 
 export default {
   data() {
     return {
       shops: [],
       listLoading: false,
+      deleteLoading: false,
+      updateLoading: false,
       form: {
         page: 1,
         pageSize: 15,
@@ -96,17 +98,28 @@ export default {
       })
     },
     removeImage(row) {
-      productImageRemove({ imageId: row.id }).then(response => {
+      this.deleteLoading = true
+      productImageRemove(row.id).then(response => {
         if (response && response.code === 0) {
-          console.log(response)
+          this.$message.success('删除成功！')
+          this.shops.splice(row.index, 1)
         } else {
           this.$message.error('网络异常！')
         }
-        this.listLoading = false
+        this.deleteLoading = false
       })
     },
-    updateImage() {
-
+    updateImage(row) {
+      this.updateLoading = true
+      productImageUpdate(row.id).then(response => {
+        if (response && response.code === 0) {
+          this.$message.success('操作成功！')
+          row.status = row.status === '1' ? '0' : '1'
+        } else {
+          this.$message.error('网络异常！')
+        }
+        this.updateLoading = false
+      })
     }
   }
 }

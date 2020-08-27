@@ -27,18 +27,16 @@ export function productImageIndex(data) {
   })
 }
 
-export function productImageRemove(data) {
+export function productImageRemove(imageId) {
   return request({
-    url: 'admin/product/images/delete',
-    method: 'post',
-    data
+    url: 'admin/product/images/delete/' + imageId,
+    method: 'post'
   })
 }
 
-export function productImageUpdate(data) {
+export function productImageUpdate(imageId) {
   return request({
-    url: 'admin/product/images/update',
+    url: 'admin/product/images/update/' + imageId,
     method: 'post',
-    data
   })
 }
