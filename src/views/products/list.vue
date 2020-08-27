@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="shops"
+      :data="images"
       element-loading-text="Loading"
       border
       fit
@@ -69,7 +69,7 @@
 export default {
   data() {
     return {
-      shops: [],
+      images: [],
       listLoading: false,
       deleteLoading: false,
       updateLoading: false,
@@ -90,7 +90,7 @@ export default {
       productImageIndex(this.form).then(response => {
         if (response && response.code === 0) {
           console.log(response)
-          this.shops = response.data.records
+          this.images = response.data.records
         } else {
           this.$message.error('网络异常！')
         }

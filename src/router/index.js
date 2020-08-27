@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'index',
       name: '后台首页',
       component: () => import('@/views/index/index'),
-      meta: { title: '后台首页', icon: 'dashboard' }
+      meta: { title: '后台首页', icon: 'el-icon-s-home' }
     }]
   },
 
@@ -60,19 +60,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/shops',
     name: '门店',
-    meta: { title: '门店管理', icon: 'el-icon-s-help' },
+    meta: { title: '门店管理', icon: 'el-icon-s-shop' },
     children: [
       {
         path: 'list',
         name: '列表',
-        component: () => import('@/views/table/index'),
-        meta: { title: '列表', icon: 'table' }
+        component: () => import('@/views/shops/list'),
+        meta: { title: '列表', icon: 'el-icon-menu' }
       },
       {
         path: 'edit',
         name: '管理',
-        component: () => import('@/views/table/index'),
-        meta: { title: '管理', icon: 'tree' }
+        component: () => import('@/views/shops/edit'),
+        meta: { title: '管理', icon: 'el-icon-s-operation' }
       }
     ]
   },
@@ -82,19 +82,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/products',
     name: '商品管理',
-    meta: { title: '商品管理', icon: 'form' },
+    meta: { title: '商品管理', icon: 'el-icon-s-goods' },
     children: [
       {
         path: 'list',
         name: '列表',
         component: () => import('@/views/products/list'),
-        meta: { title: '列表', icon: 'table' }
+        meta: { title: '列表', icon: 'el-icon-s-grid' }
       },
       {
         path: 'edit',
         name: '管理',
         component: () => import('@/views/products/edit'),
-        meta: { title: '管理', icon: 'tree' }
+        meta: { title: '管理', icon: 'el-icon-s-operation' }
       }
     ]
   },

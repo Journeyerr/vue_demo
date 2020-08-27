@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 import { pageSize } from '@/utils/content'
 
-export function shops() {
+export function shops(data) {
   return request({
-    url: '/admin/shop/index',
+    url: '/admin/shop/index?page=' + data.page + '&pageSize=' + pageSize,
     method: 'get'
   })
 }
@@ -37,6 +37,6 @@ export function productImageRemove(imageId) {
 export function productImageUpdate(imageId) {
   return request({
     url: 'admin/product/images/update/' + imageId,
-    method: 'post',
+    method: 'post'
   })
 }
