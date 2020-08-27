@@ -30,7 +30,8 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import { removeToken } from '../../utils/auth'
-
+import { removeCache } from '../../utils/cache'
+import { userInfoKey } from '../../utils/content'
 export default {
   components: {
     Breadcrumb,
@@ -48,6 +49,7 @@ export default {
     },
     async logout() {
       removeToken()
+      removeCache(userInfoKey)
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

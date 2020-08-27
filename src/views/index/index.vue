@@ -11,6 +11,7 @@
 
 import { getCacheToJsonParse } from '@/utils/cache'
 import { userInfoKey } from '@/utils/content'
+import { adminIndex } from '@/api/admin-user'
 
 export default {
   name: 'Index',
@@ -26,7 +27,8 @@ export default {
   },
   methods: {
     indexInfo() {
-      this.$store.dispatch('adminUser/adminIndex').then((response) => {
+      console.log(getCacheToJsonParse(userInfoKey))
+      adminIndex().then((response) => {
         if (response.data) {
           this.shopCount = response.data.shopCount
           this.productImageCount = response.data.productImageCount

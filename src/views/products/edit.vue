@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { productImageStore, shops } from '../../api/shops'
 
 export default {
   data() {
@@ -76,8 +77,13 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$store.dispatch('shops/productImageStore', this.form).then((response) => {
+      this.form.status = this.form.status ? 1 : 0
+      productImageStore(this.form).then((response) => {
         if (response.code === 0 && response.data) {
+          this.form.imageId = null
+          this.form.price = null
+          this.form.remark = ''
+          this.imageUrl = ''
           this.$message.success('创建成功！')
         } else {
           this.$message.error(response ? response.message : '创建失败，请重试！')
@@ -92,9 +98,11 @@ export default {
       })
     },
     getShops() {
-      this.$store.dispatch('shops/shops').then((response) => {
+      shops().then(response => {
         if (response.data) {
           this.shops = response.data
+        } else {
+          this.$message.error('门店加载失败')
         }
       })
     }

@@ -47,6 +47,11 @@
 </template>
 
 <script>
+import { adminLogin } from '../../api/admin-user'
+import { setToken, removeToken } from '@/utils/auth'
+import { cache } from '@/utils/cache'
+import { userInfoKey } from '@/utils/content'
+
 export default {
   name: 'Login',
   data() {
@@ -101,7 +106,9 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('adminUser/adminLogin', this.loginForm).then(() => {
+          const loginFrom = { phone: this.loginForm.username, password: this.loginForm.password }
+          adminLogin(loginFrom).then((response) => {
+            setToken('Bearer ' + response.data.token)
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
@@ -109,7 +116,6 @@ export default {
           })
         } else {
           // console.log('error submit!!')
-          console.log('网络异常，请稍后重试！')
           return false
         }
       })

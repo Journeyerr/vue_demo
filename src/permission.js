@@ -1,12 +1,12 @@
 import router from './router'
-import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import { userInfokey } from '@/utils/content'
-import { getCache, removeCache } from '@/utils/cache'
+import { userInfoKey } from '@/utils/content'
+import { cache, getCache, removeCache } from '@/utils/cache'
+import { adminInfo } from '@/api/admin-user'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -17,19 +17,21 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()
   // set page title
   document.title = getPageTitle(to.meta.title)
-
   // determine whether the user has logged in
-
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
     } else {
-      if (getCache(userInfokey)) {
+      if (getCache(userInfoKey)) {
         next()
       } else {
         try {
-          await store.dispatch('adminUser/adminInfo')
+          adminInfo().then((response) => {
+            if (response && response.code === 0) {
+              cache(userInfoKey, response.data)
+            }
+          })
           next()
         } catch (error) {
           // remove token and go to login page to re-login
@@ -40,7 +42,7 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    removeCache(userInfokey)
+    removeCache(userInfoKey)
     /* has no token*/
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly

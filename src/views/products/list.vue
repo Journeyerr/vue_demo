@@ -1,85 +1,113 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
+    <el-table
+      v-loading="listLoading"
+      :data="shops"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+    >
+      <el-table-column align="center" label="序号" width="110" fixed>
+        <template slot-scope="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
+      <el-table-column label="门店ID" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.shop_id }}
+        </template>
+      </el-table-column>
+      <el-table-column label="门店名称" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.shop_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="商品描述" width="410" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.remark }}
+        </template>
+      </el-table-column>
+      <el-table-column label="商品价格" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.price }}
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" label="状态" width="110" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status === '1'" class="tag-group__title" type="success">显示中</el-tag>
+          <el-tag v-else class="tag-group__title" type="info">关闭中</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="商品图片" width="210" align="center">
+        <template slot-scope="scope">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="scope.row.product_image">
+          </el-image>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="创建时间" width="200">
+        <template slot-scope="scope">
+          <span>{{ scope.row.created_at }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="操作" width="220" fixed="right">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.status === '1'" type="warning">停用</el-button>
+          <el-button v-else type="primary">启用</el-button>
+          <el-button type="danger" @click="removeImage(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
+import { productImageIndex, productImageRemove } from '../../api/shops'
+
 export default {
   data() {
     return {
+      shops: [],
+      listLoading: false,
       form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        page: 1,
+        pageSize: 15,
+        shopId: null
       }
     }
   },
+  mounted() {
+    this.fetchData()
+  },
+
   methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
+    fetchData() {
+      this.listLoading = true
+      productImageIndex(this.form).then(response => {
+        if (response && response.code === 0) {
+          console.log(response)
+          this.shops = response.data.records
+        } else {
+          this.$message.error('网络异常！')
+        }
+        this.listLoading = false
       })
+    },
+    removeImage(row) {
+      productImageRemove({ imageId: row.id }).then(response => {
+        if (response && response.code === 0) {
+          console.log(response)
+        } else {
+          this.$message.error('网络异常！')
+        }
+        this.listLoading = false
+      })
+    },
+    updateImage() {
+
     }
   }
 }
 </script>
-
-<style scoped>
-.line{
-  text-align: center;
-}
-</style>
-
