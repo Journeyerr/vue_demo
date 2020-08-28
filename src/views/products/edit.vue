@@ -52,6 +52,9 @@ export default {
         shopId: null,
         imageId: null
       },
+      pageForm: {
+        page: 1
+      },
       shops: [],
       imageUrl: '',
       loading: false

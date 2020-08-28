@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     indexInfo() {
-      console.log(getCacheToJsonParse(userInfoKey))
       adminIndex().then((response) => {
         if (response.data) {
           this.shopCount = response.data.shopCount

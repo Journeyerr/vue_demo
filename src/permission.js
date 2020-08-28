@@ -27,7 +27,7 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          adminInfo().then((response) => {
+          await adminInfo().then((response) => {
             if (response && response.code === 0) {
               cache(userInfoKey, response.data)
             }

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { shops } from '../../api/shops'
+  import { shopsPage } from '../../api/shops'
 
 export default {
   data() {
@@ -84,7 +84,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      shops(this.form).then(response => {
+      shopsPage(this.form).then(response => {
         if (response && response.code === 0) {
           this.shops = response.data.records
         } else {
