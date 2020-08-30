@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { productImageStore, shops } from '../../api/shops'
+import { productStore, shops } from '../../api/shops'
 
 export default {
   data() {
@@ -78,7 +78,7 @@ export default {
     onSubmit() {
       this.loading = true
       this.form.status = this.form.status ? 1 : 0
-      productImageStore(this.form).then((response) => {
+      productStore(this.form).then((response) => {
         if (response.code === 0 && response.data) {
           this.form.imageId = null
           this.form.price = null

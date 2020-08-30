@@ -15,16 +15,16 @@ export function shops() {
   })
 }
 
-export function productImageStore(data) {
+export function productStore(data) {
   return request({
-    url: '/admin/product/images/store',
+    url: '/admin/product/store',
     method: 'post',
     data
   })
 }
 
-export function productImageIndex(data) {
-  const url = '/admin/product/images/index?page=' + data.page + '&pageSize=' + pageSize
+export function productIndex(data) {
+  const url = '/admin/product/index?page=' + data.page + '&pageSize=' + pageSize
   if (data.shopId !== null) {
     url.concat('&shopId=' + data.shopId)
   }
@@ -34,16 +34,16 @@ export function productImageIndex(data) {
   })
 }
 
-export function productImageRemove(imageId) {
+export function productRemove(imageId) {
   return request({
-    url: 'admin/product/images/delete/' + imageId,
+    url: 'admin/product/delete/' + imageId,
     method: 'post'
   })
 }
 
-export function productImageUpdate(imageId) {
+export function productUpdate(imageId) {
   return request({
-    url: 'admin/product/images/update/' + imageId,
+    url: 'admin/product/update/' + imageId,
     method: 'post'
   })
 }

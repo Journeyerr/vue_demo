@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="images"
+      :data="products"
       element-loading-text="Loading"
       border
       fit
@@ -13,14 +13,14 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="门店ID" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.shop_id }}
-        </template>
-      </el-table-column>
       <el-table-column label="门店名称" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.shop_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="商品名称" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.name }}
         </template>
       </el-table-column>
       <el-table-column label="商品描述" width="410" align="center">
@@ -43,8 +43,8 @@
         <template slot-scope="scope">
           <el-image
             style="width: 100px; height: 100px"
-            :src="scope.row.product_image">
-          </el-image>
+            :src="scope.row.product_image"
+          />
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="创建时间" width="200">
@@ -54,9 +54,9 @@
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="操作" width="220" fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status === '1'" type="warning" @click="updateImage(scope.row)" :loading="updateLoading">停用</el-button>
-          <el-button v-else type="primary" @click="updateImage(scope.row)" :loading="updateLoading">启用</el-button>
-          <el-button type="danger" @click="removeImage(scope.row)" :loading="deleteLoading">删除</el-button>
+          <el-button v-if="scope.row.status === '1'" type="warning" :loading="updateLoading" @click="updateImage(scope.row)">停用</el-button>
+          <el-button v-else type="primary" :loading="updateLoading" @click="updateImage(scope.row)">启用</el-button>
+          <el-button type="danger" :loading="deleteLoading" @click="removeImage(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,12 +64,12 @@
 </template>
 
 <script>
-  import { productImageIndex, productImageRemove, productImageUpdate } from '../../api/shops'
+import { productIndex, productRemove, productUpdate } from '../../api/shops'
 
 export default {
   data() {
     return {
-      images: [],
+      products: [],
       listLoading: false,
       deleteLoading: false,
       updateLoading: false,
@@ -87,10 +87,10 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      productImageIndex(this.form).then(response => {
+      productIndex(this.form).then(response => {
         if (response && response.code === 0) {
           console.log(response)
-          this.images = response.data.records
+          this.products = response.data.records
         } else {
           this.$message.error('网络异常！')
         }
@@ -99,19 +99,19 @@ export default {
     },
     removeImage(row) {
       this.deleteLoading = true
-      productImageRemove(row.id).then(response => {
+      productRemove(row.id).then(response => {
+        this.deleteLoading = false
         if (response && response.code === 0) {
           this.$message.success('删除成功！')
-          this.shops.splice(row.index, 1)
+          this.products.splice(row.index, 1)
         } else {
           this.$message.error('网络异常！')
         }
-        this.deleteLoading = false
       })
     },
     updateImage(row) {
       this.updateLoading = true
-      productImageUpdate(row.id).then(response => {
+      productUpdate(row.id).then(response => {
         if (response && response.code === 0) {
           this.$message.success('操作成功！')
           row.status = row.status === '1' ? '0' : '1'

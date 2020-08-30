@@ -1,10 +1,13 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="图片描述">
+      <el-form-item label="商品名称">
+        <el-input v-model="form.name" style="width: 150px" />
+      </el-form-item>
+      <el-form-item label="商品描述">
         <el-input v-model="form.remark" />
       </el-form-item>
-      <el-form-item label="上传门店">
+      <el-form-item label="所属门店">
         <el-select v-model="form.shopId" placeholder="请选择要上传的门店">
           <el-option
             v-for="shop in shops"
@@ -40,12 +43,13 @@
 </template>
 
 <script>
-import { productImageStore, shops } from '../../api/shops'
+import { productStore, shops } from '../../api/shops'
 
 export default {
   data() {
     return {
       form: {
+        name: '',
         remark: '',
         status: true,
         price: null,
@@ -79,9 +83,13 @@ export default {
       return true
     },
     onSubmit() {
+      if (this.form.name.length < 1) {
+        this.$message.error('商品名称不能为空！')
+        return false
+      }
       this.loading = true
       this.form.status = this.form.status ? 1 : 0
-      productImageStore(this.form).then((response) => {
+      productStore(this.form).then((response) => {
         if (response.code === 0 && response.data) {
           this.form.imageId = null
           this.form.price = null
