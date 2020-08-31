@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import { productStore, shops } from '../../api/shops'
+import { shops } from '../../api/shops'
+import { productStore } from '../../api/product'
 
 export default {
   data() {

@@ -3,7 +3,7 @@
     <div class="dashboard-text">欢迎登录:   <span class="dashboard-text-admin">{{ user.name }}</span> </div>
     <br />
     <div class="dashboard-text">门店总数:  <span class="dashboard-text-count">{{ shopCount }}</span>   家</div>
-    <div class="dashboard-text">商品图片:  <span class="dashboard-text-count">{{ productImageCount }}</span>   条</div>
+    <div class="dashboard-text">商品总数:  <span class="dashboard-text-count">{{ productImageCount }}</span>   条</div>
   </div>
 </template>
 

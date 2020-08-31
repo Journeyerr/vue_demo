@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { productIndex, productRemove, productUpdate } from '../../api/shops'
+import { productIndex, productRemove, productUpdate } from '../../api/product'
 
 export default {
   data() {
