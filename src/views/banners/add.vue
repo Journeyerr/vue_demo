@@ -66,14 +66,16 @@ export default {
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$message.error('上传图片大小不能超过 2MB!')
       }
       this.loading = true
       return true
     },
     onSubmit() {
       this.loading = true
-      this.form.status = this.form.status ? 1 : 0
+      if (!this.form.imageId) {
+        this.$message.error('图片不能为空')
+      }
       bannerStore(this.form).then((response) => {
         if (response.code === 0 && response.data) {
           this.form.imageId = null
@@ -83,6 +85,7 @@ export default {
           this.$message.error(response ? response.message : '创建失败，请重试！')
         }
       })
+      this.form.status = this.form.status ? 1 : 0
       this.loading = false
     },
     onCancel() {

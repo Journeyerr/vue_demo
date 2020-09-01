@@ -89,7 +89,6 @@ export default {
         return false
       }
       this.loading = true
-      this.form.status = this.form.status ? 1 : 0
       productStore(this.form).then((response) => {
         if (response.code === 0 && response.data) {
           this.form.imageId = null
@@ -101,6 +100,7 @@ export default {
           this.$message.error(response ? response.message : '创建失败，请重试！')
         }
       })
+      this.form.status = this.form.status ? 1 : 0
       this.loading = false
     },
     onCancel() {
