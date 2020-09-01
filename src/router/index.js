@@ -59,24 +59,23 @@ export const constantRoutes = [
     path: '/shops',
     component: Layout,
     redirect: '/shops',
-    name: '门店',
+    name: '门店管理',
     meta: { title: '门店管理', icon: 'el-icon-s-shop' },
     children: [
       {
         path: 'list',
-        name: '列表',
+        name: '门店列表',
         component: () => import('@/views/shops/list'),
-        meta: { title: '列表', icon: 'el-icon-menu' }
+        meta: { title: '门店列表', icon: 'el-icon-menu' }
       },
       {
-        path: 'edit',
-        name: '管理',
-        component: () => import('@/views/shops/edit'),
-        meta: { title: '管理', icon: 'el-icon-s-operation' }
+        path: 'add',
+        name: '门店添加',
+        component: () => import('@/views/shops/add'),
+        meta: { title: '门店添加', icon: 'el-icon-s-operation' }
       }
     ]
   },
-
   {
     path: '/products',
     component: Layout,
@@ -86,19 +85,39 @@ export const constantRoutes = [
     children: [
       {
         path: 'list',
-        name: '列表',
+        name: '商品列表',
         component: () => import('@/views/products/list'),
+        meta: { title: '商品列表', icon: 'el-icon-s-grid' }
+      },
+      {
+        path: 'edit',
+        name: '',
+        component: () => import('@/views/products/add'),
+        meta: { title: '商品添加', icon: 'el-icon-s-operation' }
+      }
+    ]
+  },
+  {
+    path: '/banners',
+    component: Layout,
+    redirect: '/banners',
+    name: 'Banners',
+    meta: { title: 'Banners', icon: 'el-icon-picture' },
+    children: [
+      {
+        path: 'list',
+        name: '商品列表',
+        component: () => import('@/views/banners/list'),
         meta: { title: '列表', icon: 'el-icon-s-grid' }
       },
       {
         path: 'edit',
-        name: '管理',
-        component: () => import('@/views/products/edit'),
-        meta: { title: '管理', icon: 'el-icon-s-operation' }
+        name: '',
+        component: () => import('@/views/banners/add'),
+        meta: { title: '添加', icon: 'el-icon-s-operation' }
       }
     ]
   },
-
   {
     hidden: true,
     path: '/nested',
