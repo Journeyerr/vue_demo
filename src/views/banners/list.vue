@@ -37,7 +37,7 @@
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="操作" width="220" fixed="right">
+      <el-table-column align="center" prop="created_at" label="操作" width="220">
         <template slot-scope="scope">
           <el-button v-if="scope.row.status === '1'" type="warning" :loading="updateLoading" @click="updateImage(scope.row)">停用</el-button>
           <el-button v-else type="primary" :loading="updateLoading" @click="updateImage(scope.row)">启用</el-button>

@@ -8,27 +8,37 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="110" fixed>
+      <el-table-column align="center" label="序号" width="60" fixed>
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="门店名称" width="110" align="center">
+      <el-table-column label="门店名称" width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.shop_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="商品名称" width="110" align="center">
+      <el-table-column label="商品名称" width="100" align="center">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="商品描述" width="410" align="center">
+      <el-table-column label="描述" width="380" align="center">
         <template slot-scope="scope">
           {{ scope.row.remark }}
         </template>
       </el-table-column>
-      <el-table-column label="商品价格" width="110" align="center">
+      <el-table-column label="数量" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.quantity }}
+        </template>
+      </el-table-column>
+      <el-table-column label="单位" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.unit }}
+        </template>
+      </el-table-column>
+      <el-table-column label="价格" width="100" align="center">
         <template slot-scope="scope">
           {{ scope.row.price }}
         </template>
@@ -39,7 +49,7 @@
           <el-tag v-else class="tag-group__title" type="info">关闭中</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="商品图片" width="210" align="center">
+      <el-table-column label="图片" width="110" align="center">
         <template slot-scope="scope">
           <el-image
             style="width: 100px; height: 100px"
