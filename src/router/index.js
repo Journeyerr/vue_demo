@@ -111,7 +111,7 @@ export const constantRoutes = [
         meta: { title: '列表', icon: 'el-icon-s-grid' }
       },
       {
-        path: 'edit',
+        path: 'add',
         name: '',
         component: () => import('@/views/banners/add'),
         meta: { title: '添加', icon: 'el-icon-s-operation' }

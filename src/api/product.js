@@ -10,9 +10,9 @@ export function productStore(data) {
 }
 
 export function productIndex(data) {
-  const url = '/admin/product/index?page=' + data.page + '&pageSize=' + pageSize
+  let url = '/admin/product/index?page=' + data.page + '&pageSize=' + pageSize
   if (data.shopId !== null) {
-    url.concat('&shopId=' + data.shopId)
+    url = url + '&shopId=' + data.shopId
   }
   return request({
     url: url,

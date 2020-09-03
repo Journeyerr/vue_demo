@@ -2,11 +2,20 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
       <el-form-item label="所属门店">
-        <el-select v-model="form.shopId" placeholder="请选择要上传的门店">
+        <el-select v-model="form.shopId" @change="selectShop" placeholder="请选择要上传的门店">
           <el-option
             v-for="shop in shops"
             :label="shop.name"
             :value="shop.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="关联商品">
+        <el-select v-model="form.productId" placeholder="不关联商品">
+          <el-option
+            v-for="product in products"
+            :label="product.name"
+            :value="product.id"
           />
         </el-select>
       </el-form-item>
@@ -36,6 +45,7 @@
 <script>
 import { shops } from '../../api/shops'
 import { bannerStore } from '../../api/banner'
+import { productIndex } from '../../api/product'
 
 export default {
   data() {
@@ -43,12 +53,19 @@ export default {
       form: {
         status: true,
         shopId: null,
-        imageId: null
+        imageId: null,
+        productId: null
       },
       pageForm: {
         page: 1
       },
+      productForm: {
+        page: 1,
+        pageSize: 999,
+        shopId: null
+      },
       shops: [],
+      products: [],
       imageUrl: '',
       loading: false
     }
@@ -57,6 +74,14 @@ export default {
     this.getShops()
   },
   methods: {
+    selectShop() {
+      this.productForm.shopId = this.form.shopId
+      productIndex(this.productForm).then(response => {
+        if (response && response.code === 0) {
+          this.products = response.data.records
+        }
+      })
+    },
     handleAvatarSuccess(res, file) {
       console.log(res)
       this.imageUrl = URL.createObjectURL(file.raw)

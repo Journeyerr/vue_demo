@@ -32,6 +32,11 @@
           />
         </template>
       </el-table-column>
+      <el-table-column align="center" prop="created_at" label="关联商品" width="200">
+        <template slot-scope="scope">
+          <span>{{ scope.row.product_name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="created_at" label="创建时间" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.created_at }}</span>
