@@ -19,7 +19,13 @@
       <el-form-item label="是否显示">
         <el-switch v-model="form.status" />
       </el-form-item>
-      <el-form-item label="显示价格">
+      <el-form-item label="单位数量">
+        <el-input v-model="form.quantity" style="width: 65px" />
+      </el-form-item>
+      <el-form-item label="商品单位">
+        <el-input v-model="form.unit" style="width: 65px" />
+      </el-form-item>
+      <el-form-item label="商品价格">
         <el-input v-model="form.price" style="width: 65px" /> 元
       </el-form-item>
       <el-form-item label="商品图片">
@@ -50,6 +56,8 @@ export default {
   data() {
     return {
       form: {
+        unit: '斤',
+        quantity: 1,
         name: '',
         remark: '',
         status: true,
