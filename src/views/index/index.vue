@@ -49,9 +49,9 @@ export default {
       adminIndex().then((response) => {
         if (response.data) {
           this.tableData = [
-            { 'type': '门店数量', count: response.data.shopCount },
-            { 'type': '商品数量', count: response.data.productCount },
-            { 'type': 'banner数量', count: response.data.bannerCount }
+            { 'type': '门店', count: response.data.shopCount },
+            { 'type': '商品', count: response.data.productCount },
+            { 'type': 'Banner', count: response.data.bannerCount }
           ]
         }
       })
