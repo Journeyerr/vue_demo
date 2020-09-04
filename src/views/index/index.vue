@@ -1,9 +1,27 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎登录:   <span class="dashboard-text-admin">{{ user.name }}</span> </div>
+    <div class="dashboard-text">
+    <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" style="display: inline-block;"></el-avatar>
+        <span class="dashboard-text-admin" style="padding: 0 0 50px 20px; display:inline-block; font-size: 40px">{{ user.name }}</span>
+    </div>
     <br />
-    <div class="dashboard-text">门店总数:  <span class="dashboard-text-count">{{ shopCount }}</span>   家</div>
-    <div class="dashboard-text">商品总数:  <span class="dashboard-text-count">{{ productImageCount }}</span>   条</div>
+    <template>
+      <el-table
+        :data="tableData"
+        stripe
+        style="width: 360px">
+        <el-table-column
+          prop="type"
+          label="类别"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="count"
+          label="数量"
+          width="180">
+        </el-table-column>
+      </el-table>
+    </template>
   </div>
 </template>
 
@@ -19,7 +37,8 @@ export default {
     return {
       user: getCacheToJsonParse(userInfoKey),
       shopCount: null,
-      productImageCount: null
+      productImageCount: null,
+      tableData: []
     }
   },
   mounted() {
@@ -29,8 +48,11 @@ export default {
     indexInfo() {
       adminIndex().then((response) => {
         if (response.data) {
-          this.shopCount = response.data.shopCount
-          this.productImageCount = response.data.productImageCount
+          this.tableData = [
+            { 'type': '门店数量', count: response.data.shopCount },
+            { 'type': '商品数量', count: response.data.productCount },
+            { 'type': 'banner数量', count: response.data.bannerCount }
+          ]
         }
       })
     }
