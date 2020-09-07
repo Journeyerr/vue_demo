@@ -28,14 +28,9 @@
           {{ scope.row.remark }}
         </template>
       </el-table-column>
-      <el-table-column label="数量" width="100" align="center">
+      <el-table-column label="数量/单位" width="100" align="center">
         <template slot-scope="scope">
-          {{ scope.row.quantity }}
-        </template>
-      </el-table-column>
-      <el-table-column label="单位" width="100" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.unit }}
+          {{ scope.row.quantity }}/{{ scope.row.unit }}
         </template>
       </el-table-column>
       <el-table-column label="价格" width="100" align="center">
@@ -47,6 +42,11 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === '1'" class="tag-group__title" type="success">显示中</el-tag>
           <el-tag v-else class="tag-group__title" type="info">关闭中</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="排序" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.sort }}
         </template>
       </el-table-column>
       <el-table-column label="图片" width="110" align="center">
@@ -62,11 +62,12 @@
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="操作" width="220" fixed="right">
+      <el-table-column align="center" prop="created_at" label="操作" width="280" fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status === '1'" type="warning" :loading="updateLoading" @click="updateImage(scope.row)">停用</el-button>
-          <el-button v-else type="primary" :loading="updateLoading" @click="updateImage(scope.row)">启用</el-button>
-          <el-button type="danger" :loading="deleteLoading" @click="removeImage(scope.row)">删除</el-button>
+          <el-button type="info" @click="editProduct(scope.row)">编辑</el-button>
+          <el-button v-if="scope.row.status === '1'" type="warning" :loading="updateLoading" @click="updateProduct(scope.row)">停用</el-button>
+          <el-button v-else type="primary" :loading="updateLoading" @click="updateProduct(scope.row)">启用</el-button>
+          <el-button type="danger" :loading="deleteLoading" @click="removeProduct(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -107,7 +108,7 @@ export default {
         this.listLoading = false
       })
     },
-    removeImage(row) {
+    removeProduct(row) {
       this.deleteLoading = true
       productRemove(row.id).then(response => {
         this.deleteLoading = false
@@ -119,7 +120,7 @@ export default {
         }
       })
     },
-    updateImage(row) {
+    updateProduct(row) {
       this.updateLoading = true
       productUpdate(row.id).then(response => {
         if (response && response.code === 0) {
@@ -130,6 +131,9 @@ export default {
         }
         this.updateLoading = false
       })
+    },
+    editProduct(row) {
+      this.$router.push({ path: './edit', query: { id: row.id }})
     }
   }
 }

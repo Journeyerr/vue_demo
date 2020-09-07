@@ -90,10 +90,17 @@ export const constantRoutes = [
         meta: { title: '商品列表', icon: 'el-icon-s-grid' }
       },
       {
-        path: 'edit',
+        path: 'add',
         name: '',
         component: () => import('@/views/products/add'),
         meta: { title: '商品添加', icon: 'el-icon-s-operation' }
+      },
+      {
+        path: 'edit',
+        hidden: true,
+        name: '',
+        component: () => import('@/views/products/edit'),
+        meta: { title: '商品编辑', icon: 'el-icon-s-operation' }
       }
     ]
   },

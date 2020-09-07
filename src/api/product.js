@@ -9,6 +9,14 @@ export function productStore(data) {
   })
 }
 
+export function productEdit(data) {
+  return request({
+    url: '/admin/product/edit',
+    method: 'post',
+    data
+  })
+}
+
 export function productIndex(data) {
   let url = '/admin/product/index?page=' + data.page + '&pageSize=' + pageSize
   if (data.shopId !== null) {
@@ -20,16 +28,23 @@ export function productIndex(data) {
   })
 }
 
-export function productRemove(imageId) {
+export function productRemove(productId) {
   return request({
-    url: 'admin/product/delete/' + imageId,
+    url: 'admin/product/delete/' + productId,
     method: 'post'
   })
 }
 
-export function productUpdate(imageId) {
+export function productUpdate(productId) {
   return request({
-    url: 'admin/product/update/' + imageId,
+    url: 'admin/product/update/' + productId,
     method: 'post'
+  })
+}
+
+export function productDetail(productId) {
+  return request({
+    url: 'admin/product/detail/' + productId,
+    method: 'get'
   })
 }

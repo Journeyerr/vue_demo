@@ -44,7 +44,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="onSubmit">创建</el-button>
+        <el-button :loading="loading" type="primary" @click="onSubmit">更新</el-button>
         <el-button @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
@@ -53,7 +53,7 @@
 
 <script>
 import { shops } from '../../api/shops'
-import { productStore } from '../../api/product'
+import { productDetail, productEdit } from '../../api/product'
 
 export default {
   data() {
@@ -67,7 +67,8 @@ export default {
         price: null,
         shopId: null,
         imageId: null,
-        sort: 1
+        sort: 1,
+        id: null
       },
       pageForm: {
         page: 1
@@ -102,18 +103,16 @@ export default {
       }
       this.loading = true
       this.form.status = this.form.status ? 1 : 0
-      productStore(this.form).then((response) => {
+      productEdit(this.form).then((response) => {
         if (response.code === 0 && response.data) {
-          this.form.imageId = null
-          this.form.price = null
-          this.form.remark = ''
-          this.imageUrl = ''
-          this.$message.success('创建成功！')
+          this.$message.success('更新成功！')
         } else {
-          this.$message.error(response ? response.message : '创建失败，请重试！')
+          this.$message.error(response ? response.message : '更新失败，请重试！')
         }
       })
-      this.loading = false
+      // setTimeout(function() {
+      //   location.reload()
+      // }, 2000)
     },
     onCancel() {
       this.$message({
@@ -127,6 +126,18 @@ export default {
           this.shops = response.data
         } else {
           this.$message.error('门店加载失败')
+        }
+      })
+      productDetail(this.$route.query.id).then(response => {
+        if (response.data) {
+          this.form = response.data
+          this.form.status = Number(response.data.status) === 1
+          this.form.shopId = response.data.shop_id
+          this.form.imageId = response.data.image_id
+          this.form.id = this.$route.query.id
+          this.imageUrl = response.data.product_image
+        } else {
+          this.$message.error('商品加载失败')
         }
       })
     }
