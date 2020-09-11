@@ -84,7 +84,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: `更新失败`
+            message: response.msg
           })
         }
       })
