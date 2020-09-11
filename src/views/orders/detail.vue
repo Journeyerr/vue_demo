@@ -60,22 +60,17 @@
           </el-table-column>
           <el-table-column label="单价" width="80" align="center">
             <template slot-scope="scope">
-              {{ scope.row.totalFee }}
+              ¥ {{ scope.row.price }}
             </template>
           </el-table-column>
           <el-table-column label="下单数量" width="100" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.quantity }}
-          </template>
-        </el-table-column>
+            <template slot-scope="scope">
+              {{ scope.row.quantity }}
+            </template>
+          </el-table-column>
           <el-table-column label="实际数量" width="100" align="center">
             <template slot-scope="scope">
               {{ scope.row.actualQuantity ? scope.row.actualQuantity : scope.row.quantity }}
-            </template>
-          </el-table-column>
-          <el-table-column label="小记" width="100" align="center">
-            <template slot-scope="scope">
-              {{ scope.row.actualQuantity ? scope.row.actualQuantity * scope.row.price : scope.row.quantity * scope.row.price }}
             </template>
           </el-table-column>
           <el-table-column class-name="status-col" label="优惠金额" width="100" align="center">
@@ -83,20 +78,23 @@
               {{ scope.row.discountPrice }}
             </template>
           </el-table-column>
+          <el-table-column label="小记" width="100" align="center">
+            <template slot-scope="scope">
+              ¥ {{ scope.row.actualQuantity ? scope.row.actualQuantity * scope.row.price : scope.row.quantity * scope.row.price }}
+            </template>
+          </el-table-column>
         </el-table>
       </el-collapse-item>
-      <el-collapse-item title="订单外送信息" name="3">
-        <el-card class="box-card">
-          <div class="text item">
-            联系用户：{{ address.name }}
-          </div>
-          <div class="text item">
-            联系电话：{{ address.phone }}
-          </div>
-          <div class="text item">
-            送货地址：{{ address.address }}
-          </div>
-        </el-card>
+      <el-collapse-item title="订单外送信息" name="3" v-if="address">
+        <div class="text item">
+          联系用户：{{ address.name }}
+        </div>
+        <div class="text item">
+          联系电话：{{ address.phone }}
+        </div>
+        <div class="text item">
+          送货地址：{{ address.address }}
+        </div>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -126,7 +124,11 @@ export default {
     return {
       order: {},
       items: [],
-      address: {},
+      address: {
+        'name': '',
+        'phone': '',
+        'address': ''
+      },
       detailLoading: false,
       activeNames: ['1', '2', '3']
     }
