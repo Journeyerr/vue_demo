@@ -21,3 +21,11 @@ export function adminIndex() {
     method: 'get'
   })
 }
+
+export function adminEditPassword(data) {
+  return request({
+    url: '/admin/user/edit/password',
+    method: 'post',
+    data
+  })
+}

@@ -42,7 +42,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -54,7 +53,18 @@ export const constantRoutes = [
       meta: { title: '后台首页', icon: 'el-icon-s-home' }
     }]
   },
-
+  {
+    path: '/user',
+    // hidden: true,
+    component: Layout,
+    redirect: '/user',
+    children: [{
+      path: 'edit',
+      name: '管理员编辑',
+      component: () => import('@/views/user/edit'),
+      meta: { title: '管理员编辑', icon: 'el-icon-user-solid' }
+    }]
+  },
   {
     path: '/shops',
     component: Layout,
