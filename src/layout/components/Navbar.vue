@@ -16,6 +16,11 @@
               返回首页
             </el-dropdown-item>
           </router-link>
+          <router-link to="/user/edit">
+            <el-dropdown-item>
+              更改密码
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">注销登录</span>
           </el-dropdown-item>

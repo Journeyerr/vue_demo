@@ -1,0 +1,10 @@
+
+export function urlTool(data = {}) {
+  let url = ''
+  for (const k in data) {
+    if (data[k] !== undefined && data[k] !== null) {
+      url += `&${k}=${encodeURIComponent(data[k])}`
+    }
+  }
+  return url ? '?' + url.substring(1) : ''
+}

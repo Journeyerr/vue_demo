@@ -55,7 +55,7 @@ export const constantRoutes = [
   },
   {
     path: '/user',
-    // hidden: true,
+    hidden: true,
     component: Layout,
     redirect: '/user',
     children: [{
@@ -79,6 +79,7 @@ export const constantRoutes = [
         meta: { title: '门店列表', icon: 'el-icon-menu' }
       },
       {
+        hidden: true,
         path: 'add',
         name: '门店添加',
         component: () => import('@/views/shops/add'),
@@ -132,6 +133,28 @@ export const constantRoutes = [
         name: '',
         component: () => import('@/views/banners/add'),
         meta: { title: '添加', icon: 'el-icon-s-operation' }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order',
+    name: '订单管理',
+    meta: { title: '订单管理', icon: 'el-icon-picture' },
+    children: [
+      {
+        path: 'list',
+        name: '订单列表',
+        component: () => import('@/views/orders/list'),
+        meta: { title: '订单列表', icon: 'el-icon-s-order' }
+      },
+      {
+        hidden: true,
+        path: 'detail',
+        name: '',
+        component: () => import('@/views/orders/detail'),
+        meta: { title: '订单详情', icon: 'el-icon-search' }
       }
     ]
   },

@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { pageSize } from '@/utils/content'
+import { urlTool } from '@/utils/url-tool'
 
 export function bannerStore(data) {
   return request({
@@ -10,10 +11,8 @@ export function bannerStore(data) {
 }
 
 export function bannerIndex(data) {
-  const url = '/admin/banner/index?page=' + data.page + '&pageSize=' + pageSize
-  if (data.shopId !== null) {
-    url.concat('&shopId=' + data.shopId)
-  }
+  const param = { page: data.page, pageSize: pageSize, shopId: data.shopId }
+  const url = '/admin/banner/index' + urlTool(param)
   return request({
     url: url,
     method: 'get'

@@ -6,6 +6,7 @@ import settings from './modules/settings'
 import user from './modules/user'
 import adminUser from './modules/admin-user'
 import shops from './modules/shops'
+import order from './modules/order'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     settings,
     user,
     adminUser,
-    shops
+    shops,
+    order
   },
   getters
 })
