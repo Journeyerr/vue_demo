@@ -1,5 +1,20 @@
 <template>
   <div class="app-container">
+    <el-form ref="form" :model="form" label-width="80px">
+        <div style="margin-bottom: 20px; font-size: 15px; font-weight: bold">
+          <el-input v-model="form.no" style="width: 30%;" placeholder="筛选订单号"></el-input>
+          <el-select v-model="form.status" style="width: 30%; margin-left: 20px" placeholder="请选择活动区域">
+            <el-option
+              v-for="statu in statusNames"
+              :label="statu.name"
+              :value="statu.code"
+            />
+          </el-select>
+          </el-select>
+          <el-button type="primary" @click="onSubmit" style="margin-left:30px ">查询</el-button>
+          <el-button type="primary" @click="resetSubmit" style="margin-left:30px ">重置</el-button>
+        </div>
+    </el-form>
     <el-table
       v-loading="listLoading"
       :data="orders"
@@ -78,7 +93,7 @@
 
 <script>
 import { orderList } from '../../api/order'
-import { pageSizeConfig } from '../../utils/content'
+import { pageSizeConfig, statusNames } from '../../utils/content'
 
 export default {
   data() {
@@ -88,9 +103,12 @@ export default {
       form: {
         pageSize: pageSizeConfig,
         page: 1,
-        shopId: null
+        shopId: null,
+        no: '',
+        status: ''
       },
-      totalPage: 0
+      totalPage: 0,
+      statusNames: statusNames
     }
   },
   mounted() {
@@ -98,6 +116,14 @@ export default {
   },
 
   methods: {
+    onSubmit() {
+      this.fetchData(this.form)
+    },
+    resetSubmit() {
+      this.form.no = ''
+      this.form.status = ''
+      this.fetchData(this.form)
+    },
     handleCurrentChange: function(val) {
       this.form.page = val
       this.fetchData(this.form)

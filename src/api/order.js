@@ -1,10 +1,8 @@
 import request from '@/utils/request'
-import { pageSizeConfig } from '@/utils/content'
 import { urlTool } from '@/utils/url-tool'
 
 export function orderList(data) {
-  const param = { page: data.page, pageSize: pageSizeConfig, shopId: data.shopId, status: data.status }
-  const url = 'admin/order/list' + urlTool(param)
+  const url = 'admin/order/list' + urlTool(data)
   return request({
     url: url,
     method: 'get'
