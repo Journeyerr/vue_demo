@@ -1,7 +1,7 @@
 
 export const userInfoKey = 'userInfo'
 
-export const pageSize = 10
+export const pageSizeConfig = 10
 
 export const statusName = {
   'WAIT_BUYER_PAY': '等待用户付款',

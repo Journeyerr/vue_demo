@@ -72,15 +72,20 @@
       </el-table-column>
     </el-table>
     <el-pagination
+      style="padding-top: 20px"
       background
-      layout="prev, pager, next"
-      :total="20">
-    </el-pagination>
+      @current-change="handleCurrentChange"
+      :current-page="form.page"
+      :page-size="form.pageSize"
+      layout="total, prev, pager, next"
+      :total="totalPage"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
 import { productIndex, productRemove, productUpdate } from '../../api/product'
+import { pageSizeConfig } from '../../utils/content'
 
 export default {
   data() {
@@ -90,23 +95,29 @@ export default {
       deleteLoading: false,
       updateLoading: false,
       form: {
+        pageSize: pageSizeConfig,
         page: 1,
-        pageSize: 15,
         shopId: null
-      }
+      },
+      totalPage: 0
     }
   },
   mounted() {
-    this.fetchData()
+    this.fetchData(this.form)
   },
 
   methods: {
-    fetchData() {
+    handleCurrentChange: function(val) {
+      this.form.page = val
+      this.fetchData(this.form)
+    },
+    fetchData(form = {}) {
       this.listLoading = true
-      productIndex(this.form).then(response => {
+      productIndex(form).then(response => {
         if (response && response.code === 0) {
           console.log(response)
           this.products = response.data.records
+          this.totalPage = response.data.total
         } else {
           this.$message.error('网络异常！')
         }

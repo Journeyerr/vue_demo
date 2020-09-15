@@ -1,9 +1,9 @@
 import request from '@/utils/request'
-import { pageSize } from '@/utils/content'
+import { pageSizeConfig } from '@/utils/content'
 
 export function shopsPage(data) {
   return request({
-    url: '/admin/shop/index?page=' + data.page + '&pageSize=' + pageSize,
+    url: '/admin/shop/index?page=' + data.page + '&pageSize=' + pageSizeConfig,
     method: 'get'
   })
 }

@@ -13,7 +13,7 @@
             订单金额：¥ {{ order.totalFee }}
           </div>
           <div class="text item">
-            订单状态：{{ order.status }}
+            订单状态：{{ order.statusName }}
           </div>
           <div class="text item">
             订单类型：{{ order.isTakeaway === 1 ? '外送' : '自取'}}
@@ -117,7 +117,6 @@
 
 <script>
 import { orderDetail } from '../../api/order'
-import { statusName } from '../../utils/content'
 
 export default {
   data() {
@@ -142,12 +141,11 @@ export default {
       console.log(val)
     },
     fetchData: function() {
-      // this.detailLoading = true
+      this.detailLoading = true
       orderDetail(this.$route.query.no)
         .then(data => {
           if (data && data.code === 0) {
             const order = data.data
-            order.status = statusName[order.status]
             this.order = order
             this.items = order.items
             this.address = order.address

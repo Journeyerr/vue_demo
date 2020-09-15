@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { pageSize } from '@/utils/content'
 import { urlTool } from '@/utils/url-tool'
 
 export function productStore(data) {
@@ -19,7 +18,7 @@ export function productEdit(data) {
 }
 
 export function productIndex(data) {
-  const param = { page: data.page, pageSize: pageSize, shopId: data.shopId }
+  const param = { page: data.page, pageSize: data.pageSize, shopId: data.shopId }
   const url = '/admin/product/index' + urlTool(param)
   return request({
     url: url,

@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column label="订单状态" width="120" align="center">
         <template slot-scope="scope">
-          {{ (scope.row.status) }}
+          {{ (scope.row.statusName) }}
         </template>
       </el-table-column>
       <el-table-column label="订单类型" width="80" align="center">
@@ -64,12 +64,21 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      style="padding-top: 20px"
+      background
+      @current-change="handleCurrentChange"
+      :current-page="form.page"
+      :page-size="form.pageSize"
+      layout="total, prev, pager, next"
+      :total="totalPage"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
 import { orderList } from '../../api/order'
-import { statusName } from '../../utils/content'
+import { pageSizeConfig } from '../../utils/content'
 
 export default {
   data() {
@@ -77,30 +86,32 @@ export default {
       orders: [],
       listLoading: false,
       form: {
+        pageSize: pageSizeConfig,
         page: 1,
-        pageSize: 15,
         shopId: null
-      }
+      },
+      totalPage: 0
     }
   },
   mounted() {
-    this.fetchData()
+    this.fetchData(this.form)
   },
 
   methods: {
-    fetchData: function() {
+    handleCurrentChange: function(val) {
+      this.form.page = val
+      this.fetchData(this.form)
+    },
+    fetchData: function(form = {}) {
       this.listLoading = true
-      orderList(this.form)
-        .then(data => {
-          if (data && data.code === 0) {
-            const orders = data.data
-            orders.forEach(function(element, index, array) {
-              orders[index].status = statusName[element.status]
-            })
-            this.orders = orders
-            this.listLoading = false
-          }
-        })
+      orderList(form).then(data => {
+        if (data && data.code === 0) {
+          const orders = data.data.records
+          this.totalPage = data.data.total
+          this.orders = orders
+          this.listLoading = false
+        }
+      })
     },
     orderDetail: function(row) {
       this.$router.push({ path: './detail', query: { no: row.no }})
