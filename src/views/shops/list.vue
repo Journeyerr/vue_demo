@@ -57,11 +57,21 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      style="padding-top: 20px"
+      background
+      @current-change="handleCurrentChange"
+      :current-page="form.page"
+      :page-size="form.pageSize"
+      layout="total, prev, pager, next"
+      :total="totalPage"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
-  import { shopsPage } from '../../api/shops'
+import { shopsPage } from '../../api/shops'
+import { pageSizeConfig } from '../../utils/content'
 
 export default {
   data() {
@@ -71,22 +81,28 @@ export default {
       deleteLoading: false,
       updateLoading: false,
       form: {
+        pageSize: pageSizeConfig,
         page: 1,
-        pageSize: 15,
         shopId: null
-      }
+      },
+      totalPage: 0
     }
   },
   mounted() {
-    this.fetchData()
+    this.fetchData(this.form)
   },
 
   methods: {
-    fetchData() {
+    handleCurrentChange: function(val) {
+      this.form.page = val
+      this.fetchData(this.form)
+    },
+    fetchData: function(form = {}) {
       this.listLoading = true
-      shopsPage(this.form).then(response => {
+      shopsPage(form).then(response => {
         if (response && response.code === 0) {
           this.shops = response.data.records
+          this.totalPage = response.data.total
         } else {
           this.$message.error('网络异常！')
         }
