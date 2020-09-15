@@ -11,7 +11,7 @@
         stripe
         style="width: 360px">
         <el-table-column
-          prop="type"
+          prop="name"
           label="类别"
           width="180">
         </el-table-column>
@@ -48,11 +48,8 @@ export default {
     indexInfo() {
       adminIndex().then((response) => {
         if (response.data) {
-          this.tableData = [
-            { 'type': '门店', count: response.data.shopCount },
-            { 'type': '商品', count: response.data.productCount },
-            { 'type': 'Banner', count: response.data.bannerCount }
-          ]
+          console.log(response.data.data)
+          this.tableData = response.data.infos
         }
       })
     }
