@@ -34,7 +34,7 @@
       <el-form-item label="商品图片">
         <el-upload
           class="avatar-uploader"
-          action="http://localhost:9999/admin/upload/image"
+          action="http://www.echophp.top:8080/admin/upload/image"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
